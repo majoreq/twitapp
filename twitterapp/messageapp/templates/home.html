@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block extra_header %}
+<title>Tłiter</title>
+{% endblock %}
+{% block content %}
+<center>
+<h1>YOUR HOME SCREEN {{user.username}}</h1>
+{% for tweet in tweets %}
+<table border="1" width="500">
+    <tr><td><b>{{tweet.author}}</b></td><td>{{tweet.creation_date}}</td></tr>
+    <tr><td colspan="2">{{tweet.content}}</td> </tr>
+    <tr><td>{{tweet.like}}</td><td>DAJ LAJKA!</td></tr>
+</table><br>
+{% endfor %}
+</center>
+{% endblock %}

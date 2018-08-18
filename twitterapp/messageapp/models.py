@@ -6,7 +6,7 @@ class Tweet(models.Model):
     content = models.CharField(max_length=140)
     creation_date = models.DateField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    like = models.IntegerField()
+    like = models.IntegerField(default=0)
 
 class Comment(models.Model):
     content = models.CharField(max_length=60)
