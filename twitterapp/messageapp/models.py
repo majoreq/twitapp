@@ -13,3 +13,9 @@ class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     comment_to = models.ForeignKey(Tweet, on_delete=models.CASCADE)
 
+class Message(models.Model):
+    from_who = models.ForeignKey(User, on_delete=models.CASCADE, related_name='from_who')
+    to_who = models.ForeignKey(User, on_delete=models.CASCADE, related_name='to_who')
+    content = models.CharField(max_length=256)
+    readed = models.BooleanField(default=False)
+

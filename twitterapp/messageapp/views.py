@@ -2,8 +2,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
 
-from .models import Tweet, Comment
-from .forms import LoginForm, RegisterForm, AddTweetForm, NewCommentForm
+from .models import Tweet, Comment, Message
+from .forms import LoginForm, RegisterForm, AddTweetForm, NewCommentForm, NewMessageForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
@@ -48,8 +48,8 @@ class Register(View):
                 User.objects.create_user(form.cleaned_data['username'], form.cleaned_data['email'], form.cleaned_data['password'])
                 return redirect('main')
             else:
-                HttpResponse("Password didnt match")
-        HttpResponse("Not working")
+                return HttpResponse("Password didnt match")
+        return HttpResponse("Not working")
 
 
 def logoff(request):
@@ -106,7 +106,41 @@ class AddComment(View):
                 comment_to=tweet
             )
             return redirect('home')
-        error = "coś poszło nie tak"
-        #zrobić returna
+        return HttpResponse("Not working")
+
+def addLike(request, tweet_id):
+    tweet = Tweet.objects.get(id = tweet_id)
+    tweet.like += 1
+    tweet.save()
+    return redirect('home-all')
 
 
+class AllMessages(View):
+    def get(self, request, user_id):
+        messages = Message.objects.filter(to_who = user_id)
+        return render(request, 'messages.html', {'messages':messages})
+
+class SendMessage(View):
+    def get(self, request, user_id):
+        form = NewMessageForm()
+        return render(request, 'newMessage.html', {'form':form})
+
+    def post(self, request, user_id):
+        form = NewMessageForm(request.POST)
+        if form.is_valid():
+            Message.objects.create(
+                content = form.cleaned_data['content'],
+                to_who = form.cleaned_data['to_who'],
+                from_who = User.objects.get(id = user_id)
+            )
+            messages = Message.objects.all()
+            return render(request, 'messages.html', {'messages': messages})
+        return HttpResponse("error")
+
+
+class ReadMessage(View):
+    def get(self, request, message_id):
+        message = Message.objects.get(id = message_id)
+        message.readed = True
+        message.save()
+        return render(request, 'readMessage.html', {'message':message})

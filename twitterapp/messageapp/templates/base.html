@@ -13,7 +13,7 @@
                 <li class="nav-item"><a class="nav-link active" href="{% url 'home-all' %}">Home</a></li>
                 <li class="nav-item"><a class="nav-link active" href="{% url 'add-tweet' %}">NEW TŁIT</a></li>
                 <li class="nav-item"><a class="nav-link active" href="{% url 'home' %}">My board</a></li>
-                <li class="nav-item"><a class="nav-link active" href="#">Messages</a></li>
+                <li class="nav-item"><a class="nav-link active" href="{% url 'messages' user.id %}">Messages</a></li>
                 <li class="nav-item"><a class="nav-link active" href="#">My Profile</a></li>
                 <li class="nav-item"><a class="nav-link active" href="{% url 'logout'%}">Logout</a></li>
 
