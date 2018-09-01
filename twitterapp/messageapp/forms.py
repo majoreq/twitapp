@@ -24,3 +24,7 @@ class NewMessageForm(forms.ModelForm):
     class Meta:
         model = Message
         exclude = ['from_who', 'readed']
+
+class ResetPasswordForm(forms.Form):
+    password = forms.CharField(max_length=128, label="hasło", widget=forms.PasswordInput)
+    password2 = forms.CharField(max_length=128, label="ponów hasło", widget=forms.PasswordInput)

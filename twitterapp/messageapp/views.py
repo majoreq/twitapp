@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 
 from .models import Tweet, Comment, Message
-from .forms import LoginForm, RegisterForm, AddTweetForm, NewCommentForm, NewMessageForm
+from .forms import LoginForm, RegisterForm, AddTweetForm, NewCommentForm, NewMessageForm, ResetPasswordForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
@@ -116,8 +116,8 @@ def addLike(request, tweet_id):
 
 
 class AllMessages(View):
-    def get(self, request, user_id):
-        messages = Message.objects.filter(to_who = user_id)
+    def get(self, request):
+        messages = Message.objects.filter(to_who = request.user)
         return render(request, 'messages.html', {'messages':messages})
 
 class SendMessage(View):
@@ -144,3 +144,24 @@ class ReadMessage(View):
         message.readed = True
         message.save()
         return render(request, 'readMessage.html', {'message':message})
+
+
+class EditProfile(View):
+    def get(self, request):
+        form = ResetPasswordForm()
+        return render(request, 'editProfile.html',{'form':form})
+
+    def post(self, request):
+        user = User.objects.get(id=request.user.id)
+        form = ResetPasswordForm(request.POST)
+        if form.is_valid():
+            if form.cleaned_data['password'] != form.cleaned_data['password2']:
+                alert = "hasła się nie zgadzają"
+                return render(request, 'editProfile.html', {'form': form, 'alert':alert})
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            alert = "hasła zostało zmienione"
+            return render(request, 'editProfile.html', {'form': form, 'alert': alert})
+        return HttpResponse("nie działa")
+
+
