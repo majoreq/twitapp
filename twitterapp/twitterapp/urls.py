@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from messageapp.views import Hello, Login, Register, logoff, UserHomeScreen, AddTweet
+from messageapp.views import Hello, Login, Register, logoff, UserHomeScreen, AddTweet, HomeScreenAllTwet, AddComment, AllComments
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,5 +24,8 @@ urlpatterns = [
     path('register', Register.as_view(), name='register'),
     path('logout', logoff,name='logout'),
     path('home', UserHomeScreen.as_view(), name='home'),
-    path('add_tweet', AddTweet.as_view(), name='add-tweet')
+    path('add_tweet', AddTweet.as_view(), name='add-tweet'),
+    path('home_all', HomeScreenAllTwet.as_view(), name='home-all'),
+    path('comment/<tweet_id>/add', AddComment.as_view(), name='add-comment'),
+    path('comment/<tweet_id>', AllComments.as_view(), name='all-comments')
 ]

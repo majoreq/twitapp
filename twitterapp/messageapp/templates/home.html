@@ -11,6 +11,7 @@
     <tr><td><b>{{tweet.author}}</b></td><td>{{tweet.creation_date}}</td></tr>
     <tr><td colspan="2">{{tweet.content}}</td> </tr>
     <tr><td>{{tweet.like}}</td><td>DAJ LAJKA!</td></tr>
+    <tr><td colspan="2"><a href="{% url 'all-comments' tweet.id %}">komentarze</a></td> </tr>
 </table><br>
 {% endfor %}
 </center>

@@ -12,3 +12,6 @@ class RegisterForm(forms.Form):
 
 class AddTweetForm(forms.Form):
     content = forms.CharField(max_length=140, widget=forms.Textarea)
+
+class NewCommentForm(forms.Form):
+    content = forms.CharField(max_length=60, widget=forms.Textarea)
